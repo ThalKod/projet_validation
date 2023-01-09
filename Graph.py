@@ -24,6 +24,25 @@ class Graph(TransitionRelation):
         return self.g[a]
 
     def next(self, c):
+        newV =[]
+        res=[]
+        n = 0
+        copy = c
+
+        for i in range(len(copy)):
+            for j in range(len(c)):
+                if i == j:
+                    if copy[i] == 0:
+                        n = 1
+                    else:
+                        n = 0
+                    newV.append(n)
+                else:
+                    newV.append(c[j])
+            res.append(newV)
+            newV = []
+        return res
+
 
 
     def roots(self):
