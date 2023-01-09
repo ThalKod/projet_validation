@@ -1,30 +1,9 @@
 # This is a sample Python script.
 from collections import deque
-
+from projet_validation.Graph import Graph
 
 #TODO: predicat 2 graphe qui fonctionne
 
-class Graph:
-    def __init__(self, g, iniS):
-        super().__init__()
-        self.g = g
-        self.iniS = iniS
-
-    def initial(self):
-        return self.iniS
-
-    def get(self, a):
-        return self.g[a]
-
-    def next(self, c):
-        try:
-            return self.g[c]
-        except KeyError:
-            return []
-
-
-
-# create two graphs objects
 g1 = Graph({
     "1": ["2", "3"],
     "2": ["5", "6"],
@@ -166,6 +145,7 @@ def ftest4(source, acc):
 
 
 print(bfs_with_accepting(g1, "4", ftest1, ftest1, ftest4))
+
 
 
 
