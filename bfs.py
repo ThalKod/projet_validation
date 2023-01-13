@@ -98,3 +98,19 @@ def bfs_with_accepting(graph, acc, on_known, on_entry, on_exit):
             frontier.append(n)
         on_exit(source, acc)
     return knowns
+
+
+def get_trace(dict, target, initial):
+    status = target
+    if not status:
+        print("No path found")
+        return None
+    print(initial, target)
+
+    current_Node = target
+    trace = [current_Node]
+    while current_Node not in initial:
+        current_Node = dict[current_Node]
+        trace.append(current_Node)
+
+    print("Trace : ", trace);
