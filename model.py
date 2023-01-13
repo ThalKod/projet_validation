@@ -12,19 +12,16 @@ class TransitionRelation:
 
 
 class IdentityProxy():
-    @abstractmethod
     def __init__(self, operand):
         self.operand = operand
 
-    @abstractmethod
     def __getattr__(self, attr):
         return getattr(self.get.rand, attr)
 
 
 class ParentTraceProxy(IdentityProxy):
-
     def __init__(self, operand, dict):
-        self.operand = operand
+        super().__init__(operand)
         self.dict = dict
 
     def roots(self):
@@ -35,11 +32,10 @@ class ParentTraceProxy(IdentityProxy):
 
 
 class ReplaceRootsProxy(IdentityProxy):
-    @abstractmethod
+
     def __init__(self, operand, newRoots):
-        super.__init__(operand)
+        super().__init__(operand)
         self.newRoots = newRoots
 
-    @abstractmethod
     def roots(self):
         return self.newRoots
