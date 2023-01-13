@@ -27,5 +27,3 @@ class NBits(TransitionRelation):
         return res
 
 
-
-print(next([0 ,1,1,1,1,1,1,1,1,1,1,1,1]))
