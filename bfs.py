@@ -56,6 +56,19 @@ def bfs_iter_graph(graph):
 
     return known
 
+def predicate_finder(
+        graph,
+        predicate=lambda n: False):
+    def check_predicate(s, n, a):
+        # increment the count
+        a[2] += 1
+        # check predicate
+        a[1] = predicate(n)
+        # return true if predicate is true - stop the traversal
+        return a[1]
+
+    return bfs(graph, [predicate, False, 0], on_entry=check_predicate)
+
 def bfs_with_target(graph, target):
     known = set()
     frontier = deque()
