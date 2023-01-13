@@ -143,7 +143,6 @@ def ftest3(source, n, acc):
 def ftest4(source, acc):
     pass
 
-
 print(bfs_with_accepting(g1, "4", ftest1, ftest1, ftest4))
 
 
