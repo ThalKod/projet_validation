@@ -1,9 +1,7 @@
 import copy
 import sys
 
-
-
-from projet_validation.Graph import TransitionRelation
+from model import TransitionRelation
 
 
 def is_accepted(c):
