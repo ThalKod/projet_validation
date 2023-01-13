@@ -119,7 +119,7 @@ def bfs_with_accepting(graph, acc, on_known, on_entry, on_exit):
             at_start = False
         else :
             source = frontier.popleft()
-            neighbours = graph.get(source)
+            neighbours = graph.next(source)
         for n in neighbours:
             if n in knowns :
                 on_known(source, n, acc)

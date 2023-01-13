@@ -1,14 +1,4 @@
-from abc import abstractmethod
-
-
-class TransitionRelation:
-    @abstractmethod
-    def roots(self):
-        pass
-
-    @abstractmethod
-    def next(self, source):
-        pass
+from model import TransitionRelation
 
 
 class Graph(TransitionRelation):
