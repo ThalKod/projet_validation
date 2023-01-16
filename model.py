@@ -57,7 +57,7 @@ class STR2TR(TransitionRelation):
         self.operand = op
 
     def roots(self):
-        return self.operand.roots()
+        return self.operand.intialConfigurations()
 
     def next(self, source):
         R = []
