@@ -62,7 +62,7 @@ def predicate_finder(
     def check_predicate(s, n, a):
         # increment the count
         a[2] += 1
-        # check predicate
+        # check predicate-
         a[1] = predicate(n)
         # return true if predicate is true - stop the traversal
         return a[1]
