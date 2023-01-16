@@ -30,7 +30,7 @@ class SoupSemantics(SemanticTransitionRelation):
     def __init__(self,program):
         self.program = program
 
-    def initial(self,configurations):
+    def initialConfigurations(self):
         return [self.program.ini]
 
     def enabledActions(self,source):
