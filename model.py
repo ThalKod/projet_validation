@@ -60,8 +60,8 @@ class STR2TR(TransitionRelation):
         return self.operand.roots()
 
     def next(self, source):
-        targets = []
-        for a in self.operand.actions(source):
-            target = self.operand.execute(source, a)
-            targets.append(target)
-        return targets
+        R = []
+        for a in self.operand.enabledActions(source):
+            r = self.operand.execute(source, a)
+            R.append(r)
+        return R
