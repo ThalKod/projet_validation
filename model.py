@@ -39,3 +39,5 @@ class ReplaceRootsProxy(IdentityProxy):
 
     def roots(self):
         return self.newRoots
+
+#test
