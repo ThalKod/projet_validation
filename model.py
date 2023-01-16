@@ -40,4 +40,14 @@ class ReplaceRootsProxy(IdentityProxy):
     def roots(self):
         return self.newRoots
 
-#test
+
+class SemanticTransitionRelation():
+    def intialConfigurations(self):
+        pass
+
+    def enabledActions(self, source):
+        pass
+
+    def execute(self, action, source):
+        pass
+
