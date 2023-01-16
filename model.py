@@ -41,7 +41,7 @@ class ReplaceRootsProxy(IdentityProxy):
         return self.newRoots
 
 
-class SemanticTransitionRelation():
+class SemanticTransitionRelation:
     def intialConfigurations(self):
         pass
 
@@ -51,3 +51,17 @@ class SemanticTransitionRelation():
     def execute(self, action, source):
         pass
 
+
+class STR2TR(TransitionRelation):
+    def __init__(self, op):
+        self.operand = op
+
+    def roots(self):
+        return self.operand.roots()
+
+    def next(self, source):
+        targets = []
+        for a in self.operand.actions(source):
+            target = self.operand.execute(source, a)
+            targets.append(target)
+        return targets
