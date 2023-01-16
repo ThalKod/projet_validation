@@ -4,7 +4,7 @@ from collections import deque
 from Graph import Graph
 from bfs import bfs_with_accepting
 
-#TODO: predicat 2 graphe qui fonctionne
+# TODO: predicat 2 graphe qui fonctionne
 
 g1 = Graph({
     "1": ["2", "3"],
@@ -33,21 +33,22 @@ graph1 = {
     "6": ["6"]
 }
 
+
 def ftest1(source, n, acc):
-    if n is acc :
+    if n is acc:
         print("target %s" % n)
+
 
 def ftest2(source, acc):
     acc[0] += 1
 
+
 def ftest3(source, n, acc):
     pass
+
 
 def ftest4(source, acc):
     pass
 
+
 print(bfs_with_accepting(g1, "4", ftest1, ftest1, ftest4))
-
-
-
-
