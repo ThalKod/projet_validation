@@ -1,3 +1,6 @@
+import copy
+
+
 class Rule:
     def __init__(self, name, guard, action):
         self.name = name
@@ -14,5 +17,27 @@ class SoupProgram:
 
     def add(self, rule):
         self.rules.append(rule)
+
+
+
+
+
+class SoupSemantics(SemanticTransitionRelation):
+
+    def __init__(self,program):
+        self.program = program
+
+    def initial(self,configurations):
+        return [self.program.ini]
+
+    def enabledActions(self,source):
+        return filter(lambda r:r.guard(source),self.program.rules)
+
+    def execute(self,action, source):
+        t = copy.deepcopy(source)
+        return action.execute(t)
+
+
+
 
 
