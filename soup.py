@@ -1,5 +1,7 @@
 import copy
 
+from model import SemanticTransitionRelation
+
 
 class Rule:
     def __init__(self, name, guard, action):
@@ -9,6 +11,7 @@ class Rule:
 
     def execute(self, config):
         return [self.action(config)]
+
 
 class SoupProgram:
     def __init__(self, ini):
