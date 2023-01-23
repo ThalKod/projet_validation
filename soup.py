@@ -43,7 +43,7 @@ class InputSoupSemantics(inputSemanticTransitionRelation):
         self.program = program
     
     def initialConfigurations(self):
-        return [program.init]
+        return [self.program.init]
     
     def enablesActions(self, input, source):
         return filter(lambda r: r.guard(input, source), self.program.rules)
