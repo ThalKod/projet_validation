@@ -26,4 +26,7 @@ class NBits(TransitionRelation):
             newV = []
         return res
 
-
+def binary_print(s):
+    return set(map(
+        lambda x: "{0:03b}".format(x),
+        s))
