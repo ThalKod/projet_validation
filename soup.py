@@ -42,8 +42,12 @@ class SoupSemantics(SemanticTransitionRelation):
 
 
 class inputSemanticTransitionRelation(SemanticTransitionRelation):
-    def initial(self):
+    def __init__(self,program):
+        self.program = program
+
+    def initialConfigurations(self):
         pass
+
     def enabledActions(self, input, source):
         pass
     def execute(self, action, input, source):
