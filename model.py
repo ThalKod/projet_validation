@@ -57,11 +57,11 @@ class STR2TR(TransitionRelation):
         self.operand = op
 
     def roots(self):
-        return self.operand.roots()
+        return self.operand.intialConfigurations()
 
     def next(self, source):
-        targets = []
-        for a in self.operand.actions(source):
-            target = self.operand.execute(source, a)
-            targets.append(target)
-        return targets
+        R = []
+        for a in self.operand.enabledActions(source):
+            r = self.operand.execute(source, a)
+            R.append(r)
+        return R

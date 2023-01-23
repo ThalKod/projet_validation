@@ -12,6 +12,7 @@ class Rule:
     def execute(self, config):
         return [self.action(config)]
 
+
 class SoupProgram:
     def __init__(self, ini):
         self.ini = ini
@@ -29,7 +30,7 @@ class SoupSemantics(SemanticTransitionRelation):
     def __init__(self,program):
         self.program = program
 
-    def initial(self,configurations):
+    def initialConfigurations(self):
         return [self.program.ini]
 
     def enabledActions(self,source):
