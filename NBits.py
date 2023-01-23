@@ -6,6 +6,8 @@ class NBits(TransitionRelation):
         self.g = g
         self.iniS = iniS
 
+    def roots(self):
+        return self.initials
 
     def next(self,source):
         newV = []
