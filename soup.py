@@ -1,6 +1,6 @@
 import copy
 
-from model import SemanticTransitionRelation
+from model import SemanticTransitionRelation, inputSemanticTransitionRelation
 
 
 class Rule:
@@ -20,9 +20,6 @@ class SoupProgram:
 
     def add(self, rule):
         self.rules.append(rule)
-
-
-
 
 
 class SoupSemantics(SemanticTransitionRelation):
