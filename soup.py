@@ -1,5 +1,7 @@
 import copy
 
+from model import SemanticTransitionRelation
+
 
 class Rule:
     def __init__(self, name, guard, action):

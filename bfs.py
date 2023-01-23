@@ -90,27 +90,34 @@ def bfs_with_target(graph, target):
 
     return known
 
-def bfs_with_accepting(graph, acc, on_known, on_entry, on_exit):
-    knowns = set()
+def bfs_with_accepting(graph,
+        acc,
+        on_entry=lambda source, n, acc: False,
+        on_known=lambda source, n, acc: False,
+        on_exit =lambda source,    acc: False):
+    known = set()
     frontier = deque()
     at_start = True
-    while frontier or at_start :
+    while frontier or at_start:
         source = None
-        if at_start :
-            neighbours = graph.initial()
+        if at_start:
+            neighbours = graph.roots()
             at_start = False
-        else :
+        else:
             source = frontier.popleft()
             neighbours = graph.next(source)
         for n in neighbours:
-            if n in knowns:
-                on_known(source, n, acc)
+            if n in known:
+                if on_known(source, n, acc):
+                    return acc, known
                 continue
-            on_entry(source, n, acc)
-            knowns.add(n)
+            known.add(n)
             frontier.append(n)
-        on_exit(source, acc)
-    return knowns
+            if on_entry(source, n, acc):
+                return acc, known
+        if on_exit(source, acc):
+            return acc, known
+    return acc, known
 
 
 def get_trace(dict, target, initial):

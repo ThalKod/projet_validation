@@ -1,29 +1,38 @@
 from model import TransitionRelation
 
 class NBits(TransitionRelation):
-    def __init__(self, g, iniS):
+    def __init__(self, roots:list, n:int):
         super().__init__()
-        self.g = g
-        self.iniS = iniS
+        self.initial = roots
+        self.nBits = n
 
+    def next(self, source):
+        neighbours = []
+        for i in range(self.nBits):
+            neighbours.append(source ^ (1 << i))
+        return neighbours
 
-    def next(self,source):
-        newV = []
-        res = []
-        n = 0
-        copy = source
-        for i in range(len(copy)):
-            for j in range(len(source)):
-                if (i == j):
-                    if (copy[i] == 0):
-                        n = 1
-                    else:
-                        n = 0
-                    newV.append(n)
-                else:
-                    newV.append(source[j])
-            res.append(newV)
-            newV = []
-        return res
+    # def next(self,source):
+    #     newV = []
+    #     res = []
+    #     n = 0
+    #     copy = source
+    #     print(copy)
+    #     for i in range(len(copy)):
+    #         for j in range(len(source)):
+    #             if (i == j):
+    #                 if (copy[i] == 0):
+    #                     n = 1
+    #                 else:
+    #                     n = 0
+    #                 newV.append(n)
+    #             else:
+    #                 newV.append(source[j])
+    #         res.append(newV)
+    #         newV = []
+    #     return res
+
+    def roots(self):
+        return self.initial
 
 

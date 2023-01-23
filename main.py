@@ -2,7 +2,8 @@
 from collections import deque
 
 from Graph import Graph
-from bfs import bfs_with_accepting
+from NBits import NBits
+from bfs import bfs_with_accepting,predicate_finder
 
 # TODO: predicat 2 graphe qui fonctionne
 
@@ -60,3 +61,20 @@ def ftest4(source, acc):
 # target = predicate_finder(ptp, lambda n: n == 3)
 # getTrace(target, pDict)
 
+
+def binary_print(s):
+    return set(map(
+        lambda x: "{0:03b}".format(x),
+        s))
+
+x = 16
+[target, found, count], known = predicate_finder(NBits([0],3), lambda n: n == x)
+print(f'{x} reachable: ', found, ' explored ', count, 'nodes, known: ', binary_print(known))
+
+x = 5
+[target, found, count], known = predicate_finder(NBits([0], 3), lambda n: n == x)
+print(f'{x} reachable: ', found, ' explored ', count, 'nodes, known: ', binary_print(known))
+
+x = 1
+[target, found, count], known = predicate_finder(NBits([0], 3), lambda n: n == x)
+print(f'{x} reachable: ', found, ' explored ', count, 'nodes, known: ', binary_print(known))
