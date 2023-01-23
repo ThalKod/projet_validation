@@ -52,6 +52,15 @@ class SemanticTransitionRelation:
         pass
 
 
+class inputSemanticTransitionRelation():
+    def initialConfigurations(self):
+        pass
+
+    def enabledActions(self, input, source):
+        pass
+    def execute(self, action, input, source):
+        pass
+
 class STR2TR(TransitionRelation):
     def __init__(self, op):
         self.operand = op
