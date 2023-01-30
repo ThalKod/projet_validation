@@ -9,7 +9,7 @@ from NBits import NBits
 from bfs import bfs_with_accepting, predicate_finder, get_trace
 
 from hanoi import Hanoi, actionFunc, soup_hanoi, guarde, HanoiConfiguration, change, createStack
-from model import ParentTraceProxy, STR2TR
+from model import ParentTraceProxy, STR2TR, IdentityProxy
 from soup import SoupSemantics, SoupProgram, Rule
 
 
@@ -29,9 +29,34 @@ def hanoi_on_entry1(n):
 
 def main_hanoi():
     print("============= Hanoi Main ===============")
-    hanoi_configuration = HanoiConfiguration(3, 3)
-    prog = SoupProgram(hanoi_configuration)
+    num_of_disks = 4
+    hanoi_tower = IdentityProxy(Hanoi(3, 3))
+    init = hanoi_tower.initial()[0]
+    for i, j in [(0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2)]:
+        guard = guarde(i, j)
+        action = actionFunc(i, j)
+        g = guard(init)
+        if g:
+            a = action(init)
+        print(f'{i},{j} : {"Vrai" if g else "Faux"} -> {init}')
 
+    print("-------------------------")
+    print("Soup")
+    soup = soup_hanoi(3, 3)
+    soup_semantic = SoupSemantics(soup)
+    init = soup_semantic.initialConfigurations()[0]
+    print("First State: ", init)
+    actions = soup_semantic.enabledActions(init)
+
+    if actions:
+        for action in actions:
+            execute = soup_semantic.execute(init, action)
+            print("Output : ", execute)
+
+    str = STR2TR(soup_semantic)
+    init = str.roots()[0]
+    next = str.next(init)
+    print("After ", init, ": ", next)
 
 
 def main_alice_bob_v1():

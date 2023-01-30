@@ -67,7 +67,7 @@ def predicate_finder(
         # return true if predicate is true - stop the traversal
         return a[1]
 
-    return bfs_with_accepting(graph, [predicate, False, 0], on_entry=check_predicate)
+    return bfs_with_accepting(graph, [predicate, False, 0, None], on_entry=check_predicate)
 
 def bfs_with_target(graph, target):
     known = set()
@@ -106,17 +106,19 @@ def bfs_with_accepting(graph,
         else:
             source = frontier.popleft()
             neighbours = graph.next(source)
-        for n in neighbours:
-            if n in known:
-                if on_known(source, n, acc):
-                    return acc, known
-                continue
-            known.add(n)
-            frontier.append(n)
-            if on_entry(source, n, acc):
-                return acc, known
-        if on_exit(source, acc):
-            return acc, known
+
+        if neighbours is not None:
+            for n in neighbours:
+                if n not in known:
+                    known.add(n)
+                    frontier.append(n)
+                    if on_entry is not None:
+                        on_entry(source, n, acc)
+                else:
+                    if on_known is not None:
+                        on_known(source, n, acc)
+            if on_exit is not None:
+                on_exit(source, n, acc)
     return acc, known
 
 

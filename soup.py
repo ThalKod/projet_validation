@@ -33,7 +33,7 @@ class SoupSemantics(SemanticTransitionRelation):
     def enabledActions(self,source):
         return filter(lambda r:r.guard(source),self.program.rules)
 
-    def execute(self,action, source):
+    def execute(self, source, action):
         t = copy.deepcopy(source)
         return action.execute(t)
 
