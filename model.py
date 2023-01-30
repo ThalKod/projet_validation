@@ -91,4 +91,18 @@ class StepSynchronousProduct(SemanticTransitionRelation):
         SyncA = []
         lhs_enA = self.lhs.enabledActions(ls)
         numActions = length(lhs_enA)
-        pass
+        for la in lhs_enA:
+            l_targets = self.lhs.execute(la, ls)
+            if length(l_targets) == 0:
+                numActions -= 1
+            for lt in l_targets:
+                step = Step(lc, Action(la), lt)
+                rhs_enA = self.rhs.enabledActions(step, rs)
+                syncA.extend(map(lambda ra: (Step, ra), rhs_enA))
+
+            if numActions == 0:
+                step = Step(lc, Stutter(), lc)
+                rhs_enA = self.rhs.enabledActions(step, rs)
+                syncA.extend(map(lambda ra: (step, ra), rhs_enA))
+
+            return syncA
