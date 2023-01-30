@@ -59,6 +59,18 @@ def actionFunc(s, t):
         return action
 
 
+def createStack(capacity):
+    stack = Stack(capacity)
+    return stack
+
+def change(i, j):
+    def res(config):
+        indice = config.conf[i].pop(0)
+        config.conf[j] = [indice] + config.conf[j]
+        return config
+
+    return res
+
 def soup_hanoi(nb_stacks, nb_disks):
     h = HanoiConfiguration(nb_stacks, nb_disks)
     soup_program = SoupProgram(h)
@@ -67,6 +79,13 @@ def soup_hanoi(nb_stacks, nb_disks):
             soup_program.add(f'{i}-{j}', guarde(i, j), actionFunc(i, j))
     return soup_program
 
+class Stack:
+    # Constructor to set the data of
+    # the newly created tree node
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.top = -1
+        self.array = [0] * capacity
 
 class HanoiConfiguration(list):
     def __init__(self, nb_stacks, nb_disks):

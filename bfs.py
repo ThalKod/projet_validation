@@ -92,9 +92,9 @@ def bfs_with_target(graph, target):
 
 def bfs_with_accepting(graph,
         acc,
-        on_entry=lambda source, n, acc: False,
-        on_known=lambda source, n, acc: False,
-        on_exit =lambda source,    acc: False):
+        on_entry,
+        on_known=None,
+        on_exit = None):
     known = set()
     frontier = deque()
     at_start = True
