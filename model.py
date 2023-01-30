@@ -82,4 +82,8 @@ class StepSynchronousProduct(SemanticTransitionRelation):
     def initial(self):
         pass
     def enabledActions(self, source):
+        ls, rs = source
+        SyncA = []
+        lhs_enA = self.lhs.enabledActions(ls)
+        numActions = length(lhs_enA)
         pass
