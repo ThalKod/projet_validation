@@ -2,6 +2,7 @@ import copy
 import sys
 
 from model import TransitionRelation
+from soup import SoupProgram
 
 
 def is_accepted(c):
@@ -46,6 +47,25 @@ class Hanoi(TransitionRelation):
                 return False
             k = k + 1
         return True
+
+
+def guarde(s, t):
+    return lambda c: len(c.stacks[s]) and len(c.stacks[t]) == 0 or c.stacks[s][-1] < c.stacks[t][-1]
+
+def actionFunc(s, t):
+    def action(c):
+        disk = c.stacks[s].pop()
+        c.stacks[t].append(disk)
+        return action
+
+
+def soup_hanoi(nb_stacks, nb_disks):
+    h = HanoiConfiguration(nb_stacks, nb_disks)
+    soup_program = SoupProgram(h)
+    for i in range(nb_stacks):
+        for j in range(nb_stacks):
+            soup_program.add(f'{i}-{j}', guarde(i, j), actionFunc(i, j))
+    return soup_program
 
 
 class HanoiConfiguration(list):
