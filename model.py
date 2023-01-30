@@ -18,6 +18,9 @@ class IdentityProxy():
     def __getattr__(self, attr):
         return getattr(self.get.rand, attr)
 
+    def initial(self):
+        return self.operand.initial()
+
 
 class ParentTraceProxy(IdentityProxy):
     def __init__(self, operand, dict = {}):

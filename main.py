@@ -6,7 +6,7 @@ from Graph import Graph
 from NBits import NBits
 from bfs import bfs_with_accepting,predicate_finder
 
-from hanoi import Hanoi, actionFunc, soup_hanoi
+from hanoi import Hanoi, actionFunc, soup_hanoi, guarde
 from model import ParentTraceProxy, STR2TR
 from soup import SoupSemantics
 
@@ -17,9 +17,9 @@ def main_hanoi():
 
     for i, j in [(0, 1), (0, 2), (2, 1)]:
         init = new_hanoi.initial()[0]
-        guarde = guarde(i, j)
+        guarde_1 = guarde(i, j)
         action = actionFunc(i, j)
-        g = guarde(init)
+        g = guarde_1(init)
         if g:
             a = action(init)
         print(f'{i},{j} : {"Vrai" if g else "Faux"} -> {init}')
