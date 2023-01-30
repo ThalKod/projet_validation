@@ -74,3 +74,12 @@ class STR2TR(TransitionRelation):
             r = self.operand.execute(source, a)
             R.append(r)
         return R
+
+
+class StepSynchronousProduct(SemanticTransitionRelation):
+    def __init__(self,lhs,rhs):
+        pass
+    def initial(self):
+        pass
+    def enabledActions(self, source):
+        pass
