@@ -74,35 +74,3 @@ class STR2TR(TransitionRelation):
             r = self.operand.execute(source, a)
             R.append(r)
         return R
-
-
-class StepSynchronousProduct(SemanticTransitionRelation):
-    def __init__(self,lhs,rhs):
-        self.lhs = lhs
-        self.rhs = rhs
-    def initial(self):
-        r = []
-        for lc in lhs.initial():
-            for rc in rhs.initial():
-                r.append((lc,rc))
-        return r
-    def enabledActions(self, source):
-        ls, rs = source
-        SyncA = []
-        lhs_enA = self.lhs.enabledActions(ls)
-        numActions = length(lhs_enA)
-        for la in lhs_enA:
-            l_targets = self.lhs.execute(la, ls)
-            if length(l_targets) == 0:
-                numActions -= 1
-            for lt in l_targets:
-                step = Step(lc, Action(la), lt)
-                rhs_enA = self.rhs.enabledActions(step, rs)
-                syncA.extend(map(lambda ra: (Step, ra), rhs_enA))
-
-            if numActions == 0:
-                step = Step(lc, Stutter(), lc)
-                rhs_enA = self.rhs.enabledActions(step, rs)
-                syncA.extend(map(lambda ra: (step, ra), rhs_enA))
-
-            return syncA

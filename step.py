@@ -15,9 +15,6 @@ class Action(MaybeStutter):
         self.action = a
 
 class Step(MaybeStutter):
-
-
-
     def __init__(self,source,action,target):
         self.source = source
         self.action = action
