@@ -12,12 +12,11 @@ from soup import SoupSemantics
 
 
 def main_hanoi():
-    print("-------------------------")
-    print("Action")
-    print("Exemple 1: ")
-    tour_hanoi = ParentTraceProxy(Hanoi(3, 3))
+    print("============= Hanoi Main ===============")
+    new_hanoi = ParentTraceProxy(Hanoi(3, 3))
+
     for i, j in [(0, 1), (0, 2), (2, 1)]:
-        init = tour_hanoi.initial()[0]
+        init = new_hanoi.initial()[0]
         guarde = guarde(i, j)
         action = actionFunc(i, j)
         g = guarde(init)
@@ -25,38 +24,26 @@ def main_hanoi():
             a = action(init)
         print(f'{i},{j} : {"Vrai" if g else "Faux"} -> {init}')
 
-    print("Example 2: ")
-    init = tour_hanoi.initial()[0]
-    for i, j in [(0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2)]:
-        guard = guarde(i, j)
-        action = actionFunc(i, j)
-        g = guard(init)
-        if g:
-            a = action(init)
-        print(f'{i},{j} : {"Vrai" if g else "Faux"} -> {init}')
-
-    print("-------------------------")
-    print("Soup")
+    print("============= Hanoi Soup ===============")
     soup = soup_hanoi(3, 3)
     soup_semantic = SoupSemantics(soup)
     init = soup_semantic.initial()[0]
-    print("First State: ", init)
+
+    print("Etat initial: ", init)
     actions = soup_semantic.actions(init)
 
     if actions:
         for action in actions:
             execute = soup_semantic.execute(init, action)
-            print("Execution output : ", execute)
+            print("Execute : ", execute)
 
-    print("-------------------------")
+    print("======== STR2TR ==========")
 
-    print("STR2TR")
     str = STR2TR(soup_semantic)
     init = str.initial()[0]
     next = str.next(init)
-    print("States after ", init, "are", next)
 
-    print("-------------------------")
+    print("States after ", init, "are", next)
 
 def main_alice_bob_v1():
     pass

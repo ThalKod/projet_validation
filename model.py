@@ -20,7 +20,7 @@ class IdentityProxy():
 
 
 class ParentTraceProxy(IdentityProxy):
-    def __init__(self, operand, dict):
+    def __init__(self, operand, dict = {}):
         super().__init__(operand)
         self.dict = dict
 
@@ -29,6 +29,10 @@ class ParentTraceProxy(IdentityProxy):
 
     def next(self, source):
         neighbors = self.operand.next(source)
+        for n in neighbors:
+            if n not in self.parent:
+                self.dict[n] = source, None
+        return neighbors
 
 
 class ReplaceRootsProxy(IdentityProxy):
