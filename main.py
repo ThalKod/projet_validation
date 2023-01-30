@@ -32,12 +32,6 @@ def main_hanoi():
     hanoi_configuration = HanoiConfiguration(3, 3)
     prog = SoupProgram(hanoi_configuration)
 
-    for i in range(3):
-        for j in range(3):
-            if i != j:
-                prog.add(Rule('{} vers {}'.format(i, j), guarde(i, j), change(i, j)))
-    for k in range(len(prog.rules)):
-        print(prog.rules[k])
 
 
 def main_alice_bob_v1():
