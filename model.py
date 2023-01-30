@@ -78,8 +78,17 @@ class STR2TR(TransitionRelation):
 
 class StepSynchronousProduct(SemanticTransitionRelation):
     def __init__(self,lhs,rhs):
-        pass
+        self.lhs = lhs
+        self.rhs = rhs
     def initial(self):
-        pass
+        r = []
+        for lc in lhs.initial():
+            for rc in rhs.initial():
+                r.append((lc,rc))
+        return r
     def enabledActions(self, source):
+        ls, rs = source
+        SyncA = []
+        lhs_enA = self.lhs.enabledActions(ls)
+        numActions = length(lhs_enA)
         pass
