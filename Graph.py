@@ -13,9 +13,8 @@ class Graph(TransitionRelation):
     def get(self, a):
         return self.g[a]
 
-    def next(self, c):
-
-        return self.g[c]
+    def next(self, sourceNode):
+        return self.g[sourceNode]
         # newV =[]
         # res=[]
         # n = 0
