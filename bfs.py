@@ -4,6 +4,7 @@ from collections import deque
 def parcour_graph_largeur(graph, initial):
     visited = []
     stack = [initial]
+
     visited.append(initial)
 
     while stack:
@@ -44,16 +45,14 @@ def bfs_iter_graph(graph):
 
     while frontier or at_start:
         if at_start:
-            neighbours = graph.initial()
+            neighbours = graph.next(graph.initial())
             at_start = False
         else:
             neighbours = graph.next(frontier.popleft())
         for n in neighbours:
-
             if n not in known:
                 known.add(n)
                 frontier.append(n)
-
     return known
 
 def predicate_finder(
