@@ -68,7 +68,6 @@ def main_alice_bob_v1():
     print(r)
     r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
     print(r)
-    pass
 
 def main_alice_bob_v2():
     sem = SoupSemantics(AliceBob())
