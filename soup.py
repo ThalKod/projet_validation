@@ -10,7 +10,7 @@ class Rule:
         self.action = action
 
     def execute(self, config):
-        return [self.action(config)]
+        self.action(config)
 
 
 class SoupProgram:
@@ -35,7 +35,8 @@ class SoupSemantics(SemanticTransitionRelation):
 
     def execute(self, source, action):
         t = copy.deepcopy(source)
-        return action.execute(t)
+        action.execute(t)
+        return [t]
 
 
 class InputSoupSemantics(inputSemanticTransitionRelation):

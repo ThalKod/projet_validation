@@ -1,5 +1,7 @@
 from collections import deque
 
+from model import STR2TR, IsAcceptingProxy
+
 
 def parcour_graph_largeur(graph, initial):
     visited = []
@@ -42,17 +44,17 @@ def bfs_iter_graph(graph):
     known = set()
     frontier = deque()
     at_start = True
-
     while frontier or at_start:
         if at_start:
-            neighbours = graph.next(graph.initial())
+            neighbours = graph.initial()
             at_start = False
         else:
             neighbours = graph.next(frontier.popleft())
-        for n in neighbours:
-            if n not in known:
-                known.add(n)
-                frontier.append(n)
+        if neighbours is not None:
+            for n in neighbours:
+                if n not in known:
+                    known.add(n)
+                    frontier.append(n)
     return known
 
 def predicate_finder(
@@ -134,4 +136,10 @@ def get_trace(dict, target, initial):
         current_Node = dict[current_Node]
         trace.append(current_Node)
 
-    print("Trace : ", trace);
+    print("Trace : ", trace)
+
+
+def predicate_model_checker(semantic, predicate):
+    trr = STR2TR(semantic)
+    tr = IsAcceptingProxy(trr, predicate)
+    return bfs_iter_graph(tr)

@@ -16,7 +16,7 @@ class IdentityProxy():
         self.operand = operand
 
     def __getattr__(self, attr):
-        return getattr(self.get.rand, attr)
+        return getattr(self.operand, attr)
 
     def initial(self):
         return self.operand.initial()
@@ -79,5 +79,19 @@ class STR2TR(TransitionRelation):
         R = []
         for a in self.operand.enabledActions(source):
             r = self.operand.execute(source, a)
-            R.append(r)
+            R.extend(r)
         return R
+
+    def initial(self):
+        return self.operand.initialConfigurations()
+
+
+
+
+class IsAcceptingProxy(IdentityProxy):
+    def __init__(self, operand, predicate):
+        super().__init__(operand)
+        self.predicate = predicate
+
+    def isAccepting(self, c):
+        return self.predicate(c)
