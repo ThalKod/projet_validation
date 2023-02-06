@@ -1,6 +1,6 @@
 from bfs import predicate_model_checker
 from model import STR2TR, IsAcceptingProxy
-from soup import SoupProgram, SoupSemantics
+from soup import SoupProgram, SoupSemantics, Rule
 
 
 class AliceBobConfiguration:
@@ -24,32 +24,32 @@ def counterState():
     def InitialToWaiting_Alice(c):
         c.PC_alice = 1
 
-    soup.add("ItoSC_alice", lambda c: c.PC_alice == 0, InitialToWaiting_Alice)
+    soup.add(Rule("ItoSC_alice", lambda c: c.PC_alice == 0, InitialToWaiting_Alice))
 
     def WaitingToCriticalSection_Alice(c):
         return 1
 
-    soup.add("WtoSC_alice", lambda c: c.PC_bob == 0 and c.PC_alice == 1, WaitingToCriticalSection_Alice)
+    soup.add(Rule("WtoSC_alice", lambda c: c.PC_bob == 0 and c.PC_alice == 1, WaitingToCriticalSection_Alice))
 
     def CriticalSectionToInitial_Alice(c):
         c.PC_alice = 0
 
-    soup.add("SCtoI_alice", lambda c: c.PC_alice == 1, CriticalSectionToInitial_Alice)
+    soup.add(Rule("SCtoI_alice", lambda c: c.PC_alice == 1, CriticalSectionToInitial_Alice))
 
     def InitialToWaiting_Bob(c):
         c.PC_bob = 1
 
-    soup.add("ItoW_bob", lambda c: c.PC_bob == 0, InitialToWaiting_Bob)
+    soup.add(Rule("ItoW_bob", lambda c: c.PC_bob == 0, InitialToWaiting_Bob))
 
     def WaitingToCriticalSection_Bob(c):
         return 1
 
-    soup.add("WtoSC_bob", lambda c: c.PC_alice == 0 and c.PC_bob == 1, WaitingToCriticalSection_Bob)
+    soup.add(Rule("WtoSC_bob", lambda c: c.PC_alice == 0 and c.PC_bob == 1, WaitingToCriticalSection_Bob))
 
     def CriticalSectionToInitial_Bob(c):
         c.PC_bob = 0
 
-    soup.add("SCtoI_bob", lambda c: c.PC_bob == 1, CriticalSectionToInitial_Bob)
+    soup.add(Rule("SCtoI_bob", lambda c: c.PC_bob == 1, CriticalSectionToInitial_Bob))
 
     return soup
 
@@ -61,6 +61,4 @@ if __name__ == '__main__':
     print(tr.initial())
     print(tr.next(tr.initial()[0]))
     r = predicate_model_checker(semantic, lambda c: c.PC_alice == 1 and c.PC_bob == 1)
-    print(r)
-    r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
     print(r)
