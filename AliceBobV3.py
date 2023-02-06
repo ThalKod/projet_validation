@@ -5,51 +5,51 @@ from soup import SoupProgram, SoupSemantics, Rule
 
 class AliceBobConfiguration:
     def __init__(self):
-        self.PC_alice = 0
-        self.PC_bob = 0
+        self.ProgramCounter_Alice = 0
+        self.ProgramCounter_Bob = 0
 
     def __hash__(self):
-        return hash(self.PC_alice + self.PC_bob)
+        return hash(self.ProgramCounter_Alice + self.ProgramCounter_Bob)
 
     def __eq__(self, other):
-        return self.PC_alice == other.PC_alice & self.PC_bob == other.PC_bob
+        return self.ProgramCounter_Alice == other.ProgramCounter_Alice and self.ProgramCounter_Bob == other.ProgramCounter_Bob
 
     def __repr__(self):
-        return str(self.PC_alice) + str(self.PC_bob)
+        return str(self.ProgramCounter_Alice) + str(self.ProgramCounter_Bob)
 
 
 def counterState():
     soup = SoupProgram(AliceBobConfiguration())
 
     def InitialToWaiting_Alice(c):
-        c.PC_alice = 1
+        c.ProgramCounter_Alice = 1
 
-    soup.add(Rule("ItoSC_alice", lambda c: c.PC_alice == 0, InitialToWaiting_Alice))
+    soup.add(Rule("InitialToWaiting_Alice", lambda c: c.ProgramCounter_Alice == 0, InitialToWaiting_Alice))
 
     def WaitingToCriticalSection_Alice(c):
         return 1
 
-    soup.add(Rule("WtoSC_alice", lambda c: c.PC_bob == 0 and c.PC_alice == 1, WaitingToCriticalSection_Alice))
+    soup.add(Rule("WaitingToCriticalSection_Alice", lambda c: c.ProgramCounter_Bob == 0 and c.ProgramCounter_Alice == 1, WaitingToCriticalSection_Alice))
 
     def CriticalSectionToInitial_Alice(c):
-        c.PC_alice = 0
+        c.ProgramCounter_Alice = 0
 
-    soup.add(Rule("SCtoI_alice", lambda c: c.PC_alice == 1, CriticalSectionToInitial_Alice))
+    soup.add(Rule("CriticalSectionToInitial_Alice", lambda c: c.ProgramCounter_Alice == 1, CriticalSectionToInitial_Alice))
 
     def InitialToWaiting_Bob(c):
-        c.PC_bob = 1
+        c.ProgramCounter_Bob = 1
 
-    soup.add(Rule("ItoW_bob", lambda c: c.PC_bob == 0, InitialToWaiting_Bob))
+    soup.add(Rule("InitialToWaiting_Bob", lambda c: c.ProgramCounter_Bob == 0, InitialToWaiting_Bob))
 
     def WaitingToCriticalSection_Bob(c):
         return 1
 
-    soup.add(Rule("WtoSC_bob", lambda c: c.PC_alice == 0 and c.PC_bob == 1, WaitingToCriticalSection_Bob))
+    soup.add(Rule("WaitingToCriticalSection_Bob", lambda c: c.ProgramCounter_Alice == 0 and c.ProgramCounter_Bob == 1, WaitingToCriticalSection_Bob))
 
     def CriticalSectionToInitial_Bob(c):
-        c.PC_bob = 0
+        c.ProgramCounter_Bob = 0
 
-    soup.add(Rule("SCtoI_bob", lambda c: c.PC_bob == 1, CriticalSectionToInitial_Bob))
+    soup.add(Rule("CriticalSectionToInitial_Bob", lambda c: c.ProgramCounter_Bob == 1, CriticalSectionToInitial_Bob))
 
     return soup
 
@@ -57,8 +57,8 @@ def counterState():
 if __name__ == '__main__':
     semantic = SoupSemantics(counterState())
     tr = STR2TR(semantic)
-    tr = IsAcceptingProxy(tr, lambda c: c.PC_alice == 0)
+    tr = IsAcceptingProxy(tr, lambda c: c.ProgramCounter_Alice == 0)
     print(tr.initial())
     print(tr.next(tr.initial()[0]))
-    r = predicate_model_checker(semantic, lambda c: c.PC_alice == 1 and c.PC_bob == 1)
+    r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
     print(r)
