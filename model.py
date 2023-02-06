@@ -95,3 +95,22 @@ class IsAcceptingProxy(IdentityProxy):
 
     def isAccepting(self, c):
         return self.predicate(c)
+
+class buchiSemantics():
+    def __init__(self, t):
+        self.ini = t[0]
+        self.delta = t[1]
+        self.pred = t[2]
+
+    def initial(self):
+        return [self.ini]
+
+    def actions(self, i, c):
+        actions = []
+        for a in self.delta[c]:
+            if a[0](i):
+                actions.append(a)
+        return actions
+
+    def execute(self, i, conf, a):
+        return a[1]

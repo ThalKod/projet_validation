@@ -3,7 +3,7 @@ from model import STR2TR, IsAcceptingProxy
 from soup import SoupProgram, SoupSemantics, Rule
 
 
-class AliceBobConfiguration:
+class AliceBobConfig:
     def __init__(self):
         self.ProgramCounter_Alice = 0
         self.ProgramCounter_Bob = 0
@@ -18,8 +18,8 @@ class AliceBobConfiguration:
         return str(self.ProgramCounter_Alice) + str(self.ProgramCounter_Bob)
 
 
-def counterState():
-    soup = SoupProgram(AliceBobConfiguration())
+def AliceBob():
+    soup = SoupProgram(AliceBobConfig())
 
     def InitialToWaiting_Alice(c):
         c.ProgramCounter_Alice = 1
@@ -55,7 +55,7 @@ def counterState():
 
 
 if __name__ == '__main__':
-    semantic = SoupSemantics(counterState())
+    semantic = SoupSemantics(AliceBob())
     tr = STR2TR(semantic)
     tr = IsAcceptingProxy(tr, lambda c: c.ProgramCounter_Alice == 0)
     print(tr.initial())

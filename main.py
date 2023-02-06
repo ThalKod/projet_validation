@@ -84,6 +84,7 @@ def main_alice_bob_v3():
     print(r)
 
 
+
 if __name__ == "__main__":
     print("Liste des mains")
     print("1: Hanoi")
