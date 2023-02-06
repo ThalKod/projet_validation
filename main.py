@@ -5,12 +5,13 @@ from collections import deque
 import copy
 
 from AliceBobV2 import AliceBob
+from AliceBobV3 import counterState
 from Graph import Graph
 from NBits import NBits
 from bfs import bfs_with_accepting, predicate_finder, get_trace, predicate_model_checker
 
 from hanoi import Hanoi, actionFunc, soup_hanoi, guarde, HanoiConfiguration, change, createStack
-from model import ParentTraceProxy, STR2TR, IdentityProxy
+from model import ParentTraceProxy, STR2TR, IdentityProxy, IsAcceptingProxy
 from soup import SoupSemantics, SoupProgram, Rule
 
 
@@ -61,19 +62,34 @@ def main_hanoi():
 
 
 def main_alice_bob_v1():
+    semantic = SoupSemantics(AliceBob())
+    tr = STR2TR(semantic)
+    r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
+    print(r)
+    r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
+    print(r)
+
+def main_alice_bob_v2():
     sem = SoupSemantics(AliceBob())
     r = predicate_model_checker(sem, lambda c: c.ProgramCounter_Alice == 2 and c.ProgramCounter_Bob == 2)
     print(r)
 
-def main_alice_bob_v2():
-    pass
+def main_alice_bob_v3():
+    semantic = SoupSemantics(counterState())
+    tr = STR2TR(semantic)
+    tr = IsAcceptingProxy(tr, lambda c: c.PC_alice == 0)
+    print(tr.initial())
+    print(tr.next(tr.initial()[0]))
+    r = predicate_model_checker(semantic, lambda c: c.PC_alice == 1 and c.PC_bob == 1)
+    print(r)
+
 
 if __name__ == "__main__":
     print("Liste des mains")
     print("1: Hanoi")
-    print("2: Hanoi Simple")
-    print("3: AliceBob V1")
-    print("4: AliceBob V2")
+    print("2: AliceBob V1")
+    print("3: AliceBob V2")
+    print("4: AliceBob V3")
 
     option = input("Quel est votre choix? ")
 
@@ -83,3 +99,5 @@ if __name__ == "__main__":
         main_alice_bob_v1()
     elif option == '3':
         main_alice_bob_v2()
+    elif option == '4':
+        main_alice_bob_v3()
