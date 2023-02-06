@@ -21,26 +21,27 @@ class AliceBobConfig:
 def AliceBob():
     soup = SoupProgram(AliceBobConfig())
 
-    def ItoSC_alice(c):
+    def InitialtoCriticalSection_Alice(c):
         c.ProgramCounter_Alice = 1
 
-    soup.add(Rule("ItoSC_alice", lambda c: c.ProgramCounter_Alice == 0, ItoSC_alice))
+    soup.add(
+        Rule("InitialtoCriticalSection_Alice", lambda c: c.ProgramCounter_Alice == 0, InitialtoCriticalSection_Alice))
 
-    def SCtoI_alice(c):
+    def CriticalSectiontoInitial_Alice(c):
         c.ProgramCounter_Alice = 0
 
-    soup.add(Rule("SCtoI_alice", lambda c: c.ProgramCounter_Alice == 1, SCtoI_alice))
+    soup.add(
+        Rule("CriticalSectiontoInitial_Alice", lambda c: c.ProgramCounter_Alice == 1, CriticalSectiontoInitial_Alice))
 
+    def InitialtoCriticalSection_Bob(c):
+        c.ProgramCounter_Bob = 1
 
-    def ItoSC_alice(c):
-        c.ProgramCounter_Alice = 1
+    soup.add(Rule("InitialtoCriticalSection_Bob", lambda c: c.ProgramCounter_Bob == 0, InitialtoCriticalSection_Bob))
 
-    soup.add(Rule("ItoSC_alice", lambda c: c.ProgramCounter_Bob == 0, ItoSC_alice))
-
-    def SCtoI_bob(c):
+    def CriticalSectiontoInitial_Bob(c):
         c.ProgramCounter_Bob = 0
 
-    soup.add(Rule("SCtoI_bob", lambda c: c.ProgramCounter_Bob == 1, SCtoI_bob))
+    soup.add(Rule("CriticalSectiontoInitial_Bob", lambda c: c.ProgramCounter_Bob == 1, CriticalSectiontoInitial_Bob))
 
     return soup
 
@@ -50,5 +51,5 @@ if __name__ == '__main__':
     tr = STR2TR(semantic)
     r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
     print(r)
-    #r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
-    #print(r)
+    r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
+    print(r)
