@@ -12,7 +12,7 @@ from NBits import NBits
 from bfs import bfs_with_accepting, predicate_finder, get_trace, predicate_model_checker
 
 from hanoi import Hanoi, actionFunc, soup_hanoi, guarde, HanoiConfiguration, change, createStack
-from model import ParentTraceProxy, STR2TR, IdentityProxy, IsAcceptingProxy
+from model import ParentTraceProxy, STR2TR, IdentityProxy, IsAcceptingProxy, buchiSemantics
 from soup import SoupSemantics, SoupProgram, Rule
 
 
@@ -86,6 +86,13 @@ def main_alice_bob_v3():
 
 
 
+#def main_buchi():
+    #    semantic = buchiSemantics([AB1(),None,None])
+    #    tr = STR2TR(semantic)
+    #   r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
+    # print(r)
+    # r = predicate_model_checker(semantic, lambda c: len(semantic.actions(c)) == 0)
+    #print(r)
 
 
 if __name__ == "__main__":
