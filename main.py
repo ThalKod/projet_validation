@@ -4,9 +4,10 @@ from collections import deque
 
 import copy
 
+from AliceBobV1 import AliceBob
 from Graph import Graph
 from NBits import NBits
-from bfs import bfs_with_accepting, predicate_finder, get_trace
+from bfs import bfs_with_accepting, predicate_finder, get_trace, predicate_model_checker
 
 from hanoi import Hanoi, actionFunc, soup_hanoi, guarde, HanoiConfiguration, change, createStack
 from model import ParentTraceProxy, STR2TR, IdentityProxy
@@ -60,7 +61,9 @@ def main_hanoi():
 
 
 def main_alice_bob_v1():
-    pass
+    sem = SoupSemantics(AliceBob())
+    r = predicate_model_checker(sem, lambda c: c.ProgramCounter_Alice == 2 and c.ProgramCounter_Bob == 2)
+    print(r)
 
 def main_alice_bob_v2():
     pass
