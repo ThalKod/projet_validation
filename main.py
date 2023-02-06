@@ -4,8 +4,9 @@ from collections import deque
 
 import copy
 
-from AliceBobV2 import AliceBob
-from AliceBobV3 import counterState
+from AliceBobV2 import AliceBob as AB2
+from AliceBobV3 import AliceBob as AB3
+from AliceBobV1 import AliceBob as AB1
 from Graph import Graph
 from NBits import NBits
 from bfs import bfs_with_accepting, predicate_finder, get_trace, predicate_model_checker
@@ -62,7 +63,7 @@ def main_hanoi():
 
 
 def main_alice_bob_v1():
-    semantic = SoupSemantics(AliceBob())
+    semantic = SoupSemantics(AB1())
     tr = STR2TR(semantic)
     r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
     print(r)
@@ -70,18 +71,20 @@ def main_alice_bob_v1():
     print(r)
 
 def main_alice_bob_v2():
-    sem = SoupSemantics(AliceBob())
+    sem = SoupSemantics(AB2())
     r = predicate_model_checker(sem, lambda c: c.ProgramCounter_Alice == 2 and c.ProgramCounter_Bob == 2)
     print(r)
 
 def main_alice_bob_v3():
-    semantic = SoupSemantics(counterState())
+    semantic = SoupSemantics(AB3())
     tr = STR2TR(semantic)
     tr = IsAcceptingProxy(tr, lambda c: c.PC_alice == 0)
     print(tr.initial())
     print(tr.next(tr.initial()[0]))
     r = predicate_model_checker(semantic, lambda c: c.PC_alice == 1 and c.PC_bob == 1)
     print(r)
+
+
 
 
 
