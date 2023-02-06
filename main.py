@@ -4,7 +4,7 @@ from collections import deque
 
 import copy
 
-from AliceBobV1 import AliceBob
+from AliceBobV2 import AliceBob
 from Graph import Graph
 from NBits import NBits
 from bfs import bfs_with_accepting, predicate_finder, get_trace, predicate_model_checker
