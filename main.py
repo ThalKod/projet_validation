@@ -4,8 +4,8 @@ from collections import deque
 
 import copy
 
-from AliceBobV2 import AliceBob as AB2
-from AliceBobV3 import AliceBob as AB3
+from AliceBobV3 import AliceBob as AB2
+from AliceBobV2 import AliceBob as AB3
 from AliceBobV1 import AliceBob as AB1
 from Graph import Graph
 from NBits import NBits

@@ -1,18 +1,21 @@
 from bfs import predicate_model_checker
-from model import STR2TR, IsAcceptingProxy
-from soup import SoupProgram, SoupSemantics, Rule
+from soup import SoupProgram, Rule, SoupSemantics
 
 
 class AliceBobConfig:
     def __init__(self):
         self.ProgramCounter_Alice = 0
+        self.Flag_Alice = 0
+        self.Flag_Bob = 0
         self.ProgramCounter_Bob = 0
 
     def __hash__(self):
-        return hash(self.ProgramCounter_Alice + self.ProgramCounter_Bob)
+        return hash(self.ProgramCounter_Alice + self.ProgramCounter_Bob) + hash(self.Flag_Alice + self.Flag_Bob)
 
     def __eq__(self, other):
-        return self.ProgramCounter_Alice == other.ProgramCounter_Alice and self.ProgramCounter_Bob == other.ProgramCounter_Bob
+        if other is None:
+            return False
+        return self.ProgramCounter_Alice == self.ProgramCounter_Alice and self.ProgramCounter_Bob == other.ProgramCounter_Bob and self.Flag_Bob == other.Flag_Bob and self.Flag_Alice == other.Flag_Alice
 
     def __repr__(self):
         return str(self.ProgramCounter_Alice) + str(self.ProgramCounter_Bob)
@@ -23,42 +26,53 @@ def AliceBob():
 
     def InitialToWaiting_Alice(c):
         c.ProgramCounter_Alice = 1
+        c.Flag_Alice = 1
 
     soup.add(Rule("InitialToWaiting_Alice", lambda c: c.ProgramCounter_Alice == 0, InitialToWaiting_Alice))
 
     def WaitingToCriticalSection_Alice(c):
-        return 1
+        c.ProgramCounter_Alice = 2
+        c.Flag_Alice = 1
 
-    soup.add(Rule("WaitingToCriticalSection_Alice", lambda c: c.ProgramCounter_Bob == 0 and c.ProgramCounter_Alice == 1, WaitingToCriticalSection_Alice))
+    soup.add(Rule("WaitingToCriticalSection_Alice", lambda c: c.ProgramCounter_Bob != 2 and c.ProgramCounter_Alice == 1, WaitingToCriticalSection_Alice))
 
     def CriticalSectionToInitial_Alice(c):
         c.ProgramCounter_Alice = 0
+        c.Flag_Alice = 0
 
-    soup.add(Rule("CriticalSectionToInitial_Alice", lambda c: c.ProgramCounter_Alice == 1, CriticalSectionToInitial_Alice))
+    soup.add(Rule("CriticalSectionToInitial_Alice", lambda c: c.ProgramCounter_Alice == 2, CriticalSectionToInitial_Alice))
 
     def InitialToWaiting_Bob(c):
         c.ProgramCounter_Bob = 1
+        c.Flag_Bob = 1
 
     soup.add(Rule("InitialToWaiting_Bob", lambda c: c.ProgramCounter_Bob == 0, InitialToWaiting_Bob))
 
     def WaitingToCriticalSection_Bob(c):
-        return 1
+        c.ProgramCounter_Bob = 2
+        c.Flag_Bob = 1
 
-    soup.add(Rule("WaitingToCriticalSection_Bob", lambda c: c.ProgramCounter_Alice == 0 and c.ProgramCounter_Bob == 1, WaitingToCriticalSection_Bob))
+    soup.add(Rule("WaitingToCriticalSection_Bob", lambda c: c.ProgramCounter_Bob == 1 and c.ProgramCounter_Alice != 2, WaitingToCriticalSection_Bob))
 
     def CriticalSectionToInitial_Bob(c):
         c.ProgramCounter_Bob = 0
+        c.Flag_Bob = 0
 
-    soup.add(Rule("CriticalSectionToInitial_Bob", lambda c: c.ProgramCounter_Bob == 1, CriticalSectionToInitial_Bob))
+    soup.add(Rule("CriticalSectionToInitial_Bob", lambda c: c.ProgramCounter_Bob == 2, CriticalSectionToInitial_Bob))
 
     return soup
 
 
+def AliceInCriticalSection(c):
+    return c.ProgramCounter_Alice == 2
+
+
+def BobInCriticalSection(c):
+    return c.ProgramCounter_Bob == 2
+
+
 if __name__ == '__main__':
-    semantic = SoupSemantics(AliceBob())
-    tr = STR2TR(semantic)
-    tr = IsAcceptingProxy(tr, lambda c: c.ProgramCounter_Alice == 0)
-    print(tr.initial())
-    print(tr.next(tr.initial()[0]))
-    r = predicate_model_checker(semantic, lambda c: c.ProgramCounter_Alice == 1 and c.ProgramCounter_Bob == 1)
+    sem = SoupSemantics(AliceBob())
+    r = predicate_model_checker(sem, lambda c: c.ProgramCounter_Alice == 2 and c.ProgramCounter_Bob == 2)
     print(r)
+
